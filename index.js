@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
+const lintInsuortavel = 'talker.json';
 
 // não remova esse endpoint, e para o avaliador funcionarr
 app.get('/', (_request, response) => {
@@ -59,9 +60,9 @@ app.post('/talker', async (req, res) => {
     console.log(result);
     return res.status(result.status).json({ message: result.message });
   }
-  const talkers = JSON.parse(await fs.readFile('talker.json'));
+  const talkers = JSON.parse(await fs.readFile(lintInsuortavel));
   talkers.push(user);
-  await fs.writeFile('talker.json', JSON.stringify(talkers));
+  await fs.writeFile(lintInsuortavel, JSON.stringify(talkers));
   return res.status(201).json(user);
 });
 
@@ -79,7 +80,7 @@ app.put('/talker/:id', async (req, res) => {
   if (result) {
     return res.status(result.status).json({ message: result.message });
   }
-  let talkers = JSON.parse(await fs.readFile('talker.json'));
+  let talkers = JSON.parse(await fs.readFile(lintInsuortavel));
   talkers = talkers.filter((data) => data.id !== parseInt(id, 10));
   talkers.push(user);
   await fs.writeFile('talker.json', JSON.stringify(talkers));
